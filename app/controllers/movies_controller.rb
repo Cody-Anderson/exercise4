@@ -11,8 +11,23 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    order = params[:order]
+    
+    if order.nil?
+      @class_title = "title"
+      @class_release = "release"
+      return @movies = Movie.all
+    else if order == "title"
+      @class_title = "hilite"
+      @class_release = "release"
+      return @movies = Movie.all.order("#{order} ASC")
+    else
+      @class_title = "title"
+      @class_release = "hilite"
+      return @movies = Movie.all.order("#{order} ASC")
+    end
   end
+end
 
   def new
     # default: render 'new' template
